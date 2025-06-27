@@ -1,0 +1,9 @@
+services:
+  app:
+    env_file: ".env"
+    build: .
+    ports:
+      - "${UI_PORT}:${UI_PORT}"
+    volumes:
+      - ./src:/app/src  # mount source code
+    restart: on-failure

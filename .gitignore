@@ -1,0 +1,33 @@
+# Python bytecode files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+env/
+
+# Flask-specific files
+instance/
+*.log
+*.pot
+*.pyc
+
+# Dash-specific
+/.dash/
+
+# Pycharm-specific
+/.idea/
+
+# Database files
+*.db
+*.sqlite3
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Other common ignores
+*.swp
+*.swo
+.DS_Store
+*.bak
+config.yaml
