@@ -9,11 +9,3 @@ COPY requirements.txt .
 
 # install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-
-# copy in application files
-COPY app.py .
-
-# expose port
-EXPOSE ${UI_PORT}
-
-CMD ["python", "app.py"]
