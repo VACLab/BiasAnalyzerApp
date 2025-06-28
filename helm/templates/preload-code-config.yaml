@@ -1,0 +1,19 @@
+{{- if .Values.preload.enabled }}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: biasanalyzer-copy-pod
+spec:
+  containers:
+  - name: helper
+    image: busybox
+    command: [ "sleep", "3600" ]
+    volumeMounts:
+    - mountPath: /mnt
+      name: app-code
+  volumes:
+  - name: app-code
+    persistentVolumeClaim:
+      claimName: {{ .Release.Name }}-app-pvc
+  restartPolicy: Never
+{{- end }}

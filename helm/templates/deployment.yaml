@@ -1,0 +1,38 @@
+{{- if .Values.app.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-app
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-app
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-app
+    spec:
+      containers:
+        - name: "biasanalyzer-app"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          command:
+            - python
+            - app.py
+          ports:
+            - containerPort: {{ .Values.service.port | int }}
+              protocol: TCP
+          env:
+            - name: UI_PORT
+              value: "{{ .Values.env.UI_PORT }}"
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: app-code
+              mountPath: /app
+      volumes:
+        - name: app-code
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-app-pvc
+{{- end }}

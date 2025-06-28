@@ -1,0 +1,42 @@
+replicaCount: 1
+
+image:
+  repository: "renci/ba_app"
+  tag: "latest"
+  pullPolicy: "IfNotPresent"
+
+service:
+  type: ClusterIP
+  port: 8855
+
+env:
+  UI_PORT: "8855"
+
+resources:
+  limits:
+    cpu: "1"
+    memory: "5Gi"
+  requests:
+    cpu: "1"
+    memory: "5Gi"
+
+preload:
+  enabled: false
+app:
+  enabled: true
+
+ingress:
+  hosts:
+    - host: ba-demo.apps.renci.org
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+          port: "8855"
+  tls:
+    - secretName: ba-demo.apps.renci.org-tls
+      hosts:
+        - ba-demo.apps.renci.org
+  annotations:
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    cert-manager.io/cluster-issuer: letsencrypt
+
