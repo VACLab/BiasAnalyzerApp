@@ -6,4 +6,6 @@ services:
       - "${UI_PORT}:${UI_PORT}"
     volumes:
       - ./src:/app/src  # mount source code
+      - ./assets:/app/assets
+      - ./config:/app/config
     restart: on-failure
