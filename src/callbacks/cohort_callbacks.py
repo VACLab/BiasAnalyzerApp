@@ -44,20 +44,23 @@ def register_callbacks(app, bias_obj):
         try:
             content_type, content_string = contents.split(',')
             decoded = base64.b64decode(content_string)
+            yaml_text = decoded.decode('utf-8')
             # Save to temp file
             unique_id = uuid.uuid4().hex
             tmp_filename = f"cohort_{unique_id}.yaml"
             tmp_path = os.path.join(tempfile.gettempdir(), tmp_filename)
-            with open(tmp_path, 'wb') as f:
-                f.write(decoded)
+            with open(tmp_path, 'w', encoding='utf-8') as f:
+                f.write(yaml_text)
 
             # Create cohort
             cohort_obj = bias_obj.create_cohort(name, description, tmp_path, f"user_{unique_id}")
+
+            common_style_cell = {"textAlign": "left", "padding": "5px"}
             summary_data = cohort_obj.get_stats()
             summary_table = dash_table.DataTable(
                 data=[{"Metric": k.replace("_", " ").title(), "Value": v} for k, v in summary_data[0].items()],
                 columns=[{"name": "Metric", "id": "Metric"}, {"name": "Value", "id": "Value"}],
-                style_cell={"textAlign": "left"},
+                style_cell=common_style_cell,
             )
 
             patients = cohort_obj.data
@@ -72,6 +75,7 @@ def register_callbacks(app, bias_obj):
                 data=display_patients,
                 columns=[{"name": k.replace("_", " ").title(), "id": k} for k in display_patients[0].keys()],
                 style_table={"overflowX": "auto"},
+                style_cell=common_style_cell,
                 page_size=10,
             )
 
