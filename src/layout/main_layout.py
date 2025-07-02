@@ -27,4 +27,5 @@ def create_layout():
         html.Div(id='output-summary'),
         html.Div(id='output-table'),
         html.Div(id='cohort-duration-plot'),
+        dcc.Store(id="yaml-file-path", storage_type="session")
     ])

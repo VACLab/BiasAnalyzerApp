@@ -11,6 +11,15 @@ bias_obj = initilize_bias_analyzer()
 app = Dash(__name__)
 app.title = 'BiasAnalyzer Web App'
 server = app.server
+server.secret_key = os.getenv('SESSION_SECRET_KEY', 'fallback-insecure-dev-key')
+
+debug_flag = os.getenv('DEBUG', True)
+if not debug_flag:
+  server.config.update(
+      SESSION_COOKIE_SECURE=True,     # using HTTPS
+      SESSION_COOKIE_HTTPONLY=True,   # prevent JS access
+      SESSION_COOKIE_SAMESITE='Lax'   # reasonable CSRF protection
+  )
 
 atexit.register(bias_obj.cleanup)
 
@@ -19,4 +28,4 @@ app.layout = create_layout()
 register_callbacks(app, bias_obj)
 
 if __name__ == '__main__':
-  app.run(debug=True, host='0.0.0.0', port=os.getenv('UI_PORT', 8855))
+  app.run(debug=debug_flag, host='0.0.0.0', port=os.getenv('UI_PORT', 8855))
