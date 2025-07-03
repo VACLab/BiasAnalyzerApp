@@ -11,6 +11,8 @@ service:
 
 env:
   UI_PORT: "8855"
+  DEBUG: "False"
+  SESSION_SECRET_KEY: 'FILL_IN_A_SECRET_KEY'
 
 resources:
   limits:

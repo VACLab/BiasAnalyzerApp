@@ -26,6 +26,10 @@ spec:
           env:
             - name: UI_PORT
               value: "{{ .Values.env.UI_PORT }}"
+            - name: SESSION_SECRET_KEY
+              value: "{{ .Values.env.SESSION_SECRET_KEY }}"
+            - name: DEBUG
+              value: {{ .Values.env.DEBUG | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:

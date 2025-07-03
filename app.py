@@ -13,7 +13,7 @@ app.title = 'BiasAnalyzer Web App'
 server = app.server
 server.secret_key = os.getenv('SESSION_SECRET_KEY', 'fallback-insecure-dev-key')
 
-debug_flag = os.getenv('DEBUG', True)
+debug_flag = os.getenv('DEBUG', 'True').lower() in ('true', '1', 'yes')
 if not debug_flag:
   server.config.update(
       SESSION_COOKIE_SECURE=True,     # using HTTPS
