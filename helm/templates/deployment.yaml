@@ -18,8 +18,10 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: "{{ .Values.image.pullPolicy }}"
           command:
-            - python
-            - app.py
+            - gunicorn
+            - app:server
+            - --workers=2
+            - --bind=0.0.0.0:8855
           ports:
             - containerPort: {{ .Values.service.port | int }}
               protocol: TCP
