@@ -14,13 +14,16 @@ env:
   DEBUG: "False"
   SESSION_SECRET_KEY: 'FILL_IN_A_SECRET_KEY'
 
+gunicorn:
+  workers: 2
+
 resources:
   limits:
-    cpu: "1"
-    memory: "5Gi"
+    cpu: "2"
+    memory: "6Gi"
   requests:
-    cpu: "1"
-    memory: "5Gi"
+    cpu: "2"
+    memory: "6Gi"
 
 preload:
   enabled: false

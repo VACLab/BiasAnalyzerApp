@@ -20,8 +20,8 @@ spec:
           command:
             - gunicorn
             - app:server
-            - --workers=2
-            - --bind=0.0.0.0:8855
+            - --workers={{ .Values.gunicorn.workers | int }}
+            - --bind=0.0.0.0:{{ .Values.service.port | int }}
           ports:
             - containerPort: {{ .Values.service.port | int }}
               protocol: TCP
