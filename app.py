@@ -2,11 +2,11 @@ import os
 from dash import Dash
 import atexit
 from src.layout.main_layout import create_layout
-from src.services.ba_wrapper import initilize_bias_analyzer
+from src.services.ba_wrapper import initialize_bias_analyzer
 from src.callbacks.cohort_callbacks import register_callbacks
 
 
-bias_obj = initilize_bias_analyzer()
+bias_obj = initialize_bias_analyzer()
 
 app = Dash(__name__)
 app.title = 'BiasAnalyzer Web App'
