@@ -6,6 +6,7 @@ import base64, uuid, os, tempfile, pandas as pd
 from datetime import date
 from dash.exceptions import PreventUpdate
 import plotly.express as px
+from src.services.ba_wrapper import get_bias_analyzer
 
 
 # This will be called once per user session
@@ -15,9 +16,20 @@ def get_user_session_id():
     return session['user_id']
 
 
-def register_callbacks(app, bias_obj):
-    if bias_obj is None:
-        raise ValueError("bias_obj must be provided to register_callbacks()")
+def register_callbacks(app):
+
+    @app.callback(
+        Output("status-text", "children"),
+        Output("status-text", "style"),
+        Input("page-load", "children"),
+        prevent_initial_call=False,
+    )
+    def initialize_system(_):
+        try:
+            get_bias_analyzer()
+            return "Connected", {"color": "green"}
+        except Exception as e:
+            return f"Failed to connect: {e}", {"color": "red"}
 
     @app.callback(
         Output('yaml-file-path', 'data'),
@@ -71,6 +83,7 @@ def register_callbacks(app, bias_obj):
             # Save to temp file
             user_id = get_user_session_id()
             # Create cohort
+            bias_obj = get_bias_analyzer()
             cohort_obj = bias_obj.create_cohort(name, description, tmp_path, user_id)
 
             common_style_cell = {"textAlign": "left", "padding": "5px"}

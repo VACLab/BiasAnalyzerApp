@@ -3,7 +3,8 @@ from dash import html, dcc
 def create_layout():
     return html.Div([
         html.H1("Bias Analyzer"),
-
+        html.Div(id="status-text"),
+        html.Div(id="page-load", style={"display": "none"}),
         html.Label("Cohort Name"),
         dcc.Input(id='cohort-name', type='text', placeholder='Enter cohort name', value=''),
 

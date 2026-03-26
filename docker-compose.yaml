@@ -5,9 +5,6 @@ services:
     ports:
       - "${UI_PORT}:${UI_PORT}"
     volumes:
-      - ./src:/app/src  # mount source code
-      - ./assets:/app/assets
       - ./config:/app/config
-      - ./app.py:/app/app.py
-    command: python app.py
+    command: python /app/app.py
     restart: on-failure
