@@ -6,7 +6,7 @@ from src.callbacks.cohort_callbacks import register_callbacks
 from src.services.ba_wrapper import cleanup_bias_analyzer
 
 
-app = Dash(__name__)
+app = Dash(__name__, requests_pathname_prefix="/biasanalyzer/")
 app.title = 'BiasAnalyzer Web App'
 server = app.server
 server.secret_key = os.getenv('SESSION_SECRET_KEY', 'fallback-insecure-dev-key')
